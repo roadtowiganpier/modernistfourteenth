@@ -1,0 +1,78 @@
+// prisma/schema.prisma — matches DATA-MODEL.md exactly. Treat any
+// divergence between this file and DATA-MODEL.md as a bug.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum SubmissionStatus {
+  pending
+  approved
+  rejected
+}
+
+model Building {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  name      String
+  address   String
+  lat       Float?
+  lng       Float?
+  historyFr String
+  historyEn String
+  styleTags String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  photos         Photo[]
+  communityNotes CommunityNote[]
+}
+
+model Photo {
+  id     String @id @default(cuid())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  storageKey String
+  caption    String
+
+  submitterName  String
+  submitterEmail String
+  consentGiven   Boolean
+
+  nsfwFlagged Boolean          @default(false)
+  status      SubmissionStatus @default(pending)
+  rejectionReason String?
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+}
+
+model CommunityNote {
+  id         String   @id @default(cuid())
+  buildingId String
+  building   Building @relation(fields: [buildingId], references: [id], onDelete: Cascade)
+
+  text String
+
+  submitterName  String
+  submitterEmail String
+  consentGiven   Boolean
+
+  status          SubmissionStatus @default(pending)
+  rejectionReason String?
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+}
+
+model AdminUser {
+  id           String @id @default(cuid())
+  email        String @unique
+  passwordHash String
+}

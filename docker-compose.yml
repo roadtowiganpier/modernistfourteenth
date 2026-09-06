@@ -1,0 +1,73 @@
+services:
+  app:
+    image: ghcr.io/${GHCR_OWNER}/${GHCR_REPO}:latest
+    restart: unless-stopped
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.modernist14.rule=Host(`${APP_DOMAIN}`)
+      - traefik.http.routers.modernist14.entrypoints=websecure
+      - traefik.http.routers.modernist14.tls.certresolver=letsencrypt
+      - traefik.http.services.modernist14.loadbalancer.server.port=3000
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  umami-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${UMAMI_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${UMAMI_POSTGRES_PASSWORD}
+      POSTGRES_DB: ${UMAMI_POSTGRES_DB}
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    networks:
+      - default
+
+  umami:
+    image: ghcr.io/umami-software/umami:postgresql-latest
+    restart: unless-stopped
+    depends_on:
+      - umami-db
+    environment:
+      DATABASE_URL: postgresql://${UMAMI_POSTGRES_USER}:${UMAMI_POSTGRES_PASSWORD}@umami-db:5432/${UMAMI_POSTGRES_DB}
+      DATABASE_TYPE: postgresql
+      APP_SECRET: ${UMAMI_APP_SECRET}
+    networks:
+      - default
+      - traefik
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=traefik
+      - traefik.http.routers.modernist14-umami.rule=Host(`${UMAMI_DOMAIN}`)
+      - traefik.http.routers.modernist14-umami.entrypoints=websecure
+      - traefik.http.routers.modernist14-umami.tls.certresolver=letsencrypt
+      - traefik.http.services.modernist14-umami.loadbalancer.server.port=3000
+
+volumes:
+  db-data:
+  umami-db-data:
+
+networks:
+  default:
+  traefik:
+    external: true
