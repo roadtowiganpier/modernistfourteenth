@@ -7,12 +7,19 @@ import { prisma } from "@/lib/prisma";
 // accounts exist. Architecture allows adding further AdminUser rows
 // later (see SPEC.md §8) without changing this provider.
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  // Required self-hosted behind a reverse proxy (Traefik in production,
+  // and in dev/test) — without it NextAuth rejects the request's Host
+  // header and silently fails to establish a session.
+  trustHost: true,
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   pages: {
-    signIn: "/admin/login",
+    // Fallback only — NextAuth's own redirect isn't locale-aware. The
+    // protected admin layout and server actions redirect to the current
+    // locale's login route themselves (see lib/auth-guard.ts).
+    signIn: "/fr/admin/login",
   },
   providers: [
     Credentials({

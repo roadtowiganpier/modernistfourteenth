@@ -28,6 +28,11 @@ jobs:
     env:
       DATABASE_URL: postgresql://test:test@localhost:5432/modernist14_test?schema=public
       AUTH_SECRET: ci-test-secret-not-used-in-production
+      # Nominatim is never called for real in CI — playwright.config.ts
+      # points NOMINATIM_URL at a local stub — but the wrapper requires a
+      # User-Agent to be set before it'll issue any request (see
+      # lib/geocode.ts and TESTING.md).
+      NOMINATIM_USER_AGENT: modernist14-ci/1.0 (ci@example.com)
     steps:
       - name: Checkout
         uses: actions/checkout@v4

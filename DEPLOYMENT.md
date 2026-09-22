@@ -37,6 +37,9 @@ v1 (solo-maintained project, low deploy risk).
    - Install deps, run `prisma migrate deploy` against it
    - Run lint (`ESLint`), type check (`tsc --noEmit`), unit/integration
      tests (Vitest), and E2E tests (Playwright) — see `TESTING.md`
+   - Job-level env includes `NOMINATIM_USER_AGENT` (non-secret, set in
+     the workflow file). Tests never call the real Nominatim — E2E uses a
+     local stub server via `NOMINATIM_URL`
    - This job must pass before the pipeline continues
 2. **Build & push** job (`needs: test`)
    - Checkout code
@@ -100,7 +103,18 @@ be rolled back manually — SSH to the VPS and run
 
 Managed via a `.env` file on the VPS (never committed to the repo), read
 by Docker Compose. Expected contents: DB connection string, Object Storage
-credentials, Resend API key, Cloudflare Turnstile keys, NextAuth secret.
+credentials, Resend API key, Cloudflare Turnstile keys, NextAuth secret,
+`NOMINATIM_URL` (defaults to the public endpoint) and `NOMINATIM_USER_AGENT`
+(a descriptive identifier with contact info, required by Nominatim's usage
+policy).
+
+## Reverse proxy exposure
+
+`auth.ts` sets NextAuth's `trustHost: true`, which is required behind
+Traefik but means the app trusts the incoming `Host`/`X-Forwarded-Host`
+headers. The `app` service must therefore be reachable **only** through
+Traefik: no `ports:` mapping publishing the app to the host's public
+interfaces in `docker-compose.yml`.
 
 ## Backups
 

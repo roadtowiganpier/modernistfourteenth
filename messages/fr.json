@@ -2,5 +2,59 @@
   "HomePage": {
     "title": "Bâtiments modernistes du 14e arrondissement",
     "description": "Un catalogue communautaire du patrimoine architectural moderniste du 14e arrondissement de Paris."
+  },
+  "Admin": {
+    "nav": {
+      "buildings": "Bâtiments",
+      "logout": "Déconnexion"
+    },
+    "login": {
+      "title": "Connexion administrateur",
+      "emailLabel": "E-mail",
+      "passwordLabel": "Mot de passe",
+      "submit": "Se connecter",
+      "error": "E-mail ou mot de passe invalide."
+    },
+    "buildings": {
+      "list": {
+        "title": "Bâtiments",
+        "newButton": "Nouveau bâtiment",
+        "columnName": "Nom",
+        "columnAddress": "Adresse",
+        "columnGeocoded": "Géocodé",
+        "columnUpdatedAt": "Mis à jour",
+        "columnActions": "Actions",
+        "geocodedYes": "Oui",
+        "geocodedNo": "Non",
+        "editLink": "Modifier",
+        "deleteLink": "Supprimer",
+        "empty": "Aucun bâtiment pour le moment."
+      },
+      "form": {
+        "newTitle": "Nouveau bâtiment",
+        "editTitle": "Modifier le bâtiment",
+        "nameLabel": "Nom",
+        "addressLabel": "Adresse",
+        "historyFrLabel": "Histoire (français)",
+        "historyEnLabel": "Histoire (anglais)",
+        "styleTagsLabel": "Tags de style (séparés par des virgules)",
+        "latLabel": "Latitude",
+        "lngLabel": "Longitude",
+        "coordsHint": "Laissez les deux champs vides pour géocoder automatiquement à partir de l'adresse. Renseignez les deux pour définir les coordonnées manuellement — une saisie manuelle prime toujours sur le géocodage.",
+        "createSubmit": "Créer le bâtiment",
+        "editSubmit": "Enregistrer les modifications",
+        "cancel": "Annuler",
+        "unmappedNotice": "Le géocodage a échoué ou n'a trouvé aucune correspondance — ce bâtiment n'apparaîtra pas sur la carte tant que des coordonnées ne sont pas ajoutées."
+      },
+      "delete": {
+        "title": "Supprimer {name} ?",
+        "cascadeWarning": "Cela supprimera aussi définitivement {photos, plural, =0 {aucune photo} one {# photo} other {# photos}} et {notes, plural, =0 {aucune note communautaire} one {# note communautaire} other {# notes communautaires}}.",
+        "confirmLabel": "Saisissez le nom du bâtiment pour confirmer",
+        "confirmPlaceholder": "Nom du bâtiment",
+        "confirmButton": "Supprimer définitivement",
+        "confirmMismatch": "Le nom saisi ne correspond pas.",
+        "cancel": "Annuler"
+      }
+    }
   }
 }

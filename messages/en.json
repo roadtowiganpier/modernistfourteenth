@@ -2,5 +2,59 @@
   "HomePage": {
     "title": "Modernist Buildings of Paris XIV",
     "description": "A community-curated catalog of modernist architectural heritage in the 14th arrondissement of Paris."
+  },
+  "Admin": {
+    "nav": {
+      "buildings": "Buildings",
+      "logout": "Log out"
+    },
+    "login": {
+      "title": "Admin login",
+      "emailLabel": "Email",
+      "passwordLabel": "Password",
+      "submit": "Log in",
+      "error": "Invalid email or password."
+    },
+    "buildings": {
+      "list": {
+        "title": "Buildings",
+        "newButton": "New building",
+        "columnName": "Name",
+        "columnAddress": "Address",
+        "columnGeocoded": "Geocoded",
+        "columnUpdatedAt": "Updated",
+        "columnActions": "Actions",
+        "geocodedYes": "Yes",
+        "geocodedNo": "No",
+        "editLink": "Edit",
+        "deleteLink": "Delete",
+        "empty": "No buildings yet."
+      },
+      "form": {
+        "newTitle": "New building",
+        "editTitle": "Edit building",
+        "nameLabel": "Name",
+        "addressLabel": "Address",
+        "historyFrLabel": "History (French)",
+        "historyEnLabel": "History (English)",
+        "styleTagsLabel": "Style tags (comma-separated)",
+        "latLabel": "Latitude",
+        "lngLabel": "Longitude",
+        "coordsHint": "Leave both blank to geocode automatically from the address. Enter both to set coordinates manually — a manual entry always overrides geocoding.",
+        "createSubmit": "Create building",
+        "editSubmit": "Save changes",
+        "cancel": "Cancel",
+        "unmappedNotice": "Geocoding failed or found no match — this building won't appear on the map until coordinates are added."
+      },
+      "delete": {
+        "title": "Delete {name}?",
+        "cascadeWarning": "This will also permanently delete {photos, plural, =0 {no photos} one {# photo} other {# photos}} and {notes, plural, =0 {no community notes} one {# community note} other {# community notes}}.",
+        "confirmLabel": "Type the building's name to confirm",
+        "confirmPlaceholder": "Building name",
+        "confirmButton": "Delete permanently",
+        "confirmMismatch": "The name you typed doesn't match.",
+        "cancel": "Cancel"
+      }
+    }
   }
 }
